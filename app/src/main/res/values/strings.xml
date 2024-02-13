@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Homework_22</string>
+    <string name="sample_title">sample title</string>
+    <string name="sample_name">sample name</string>
+    <string name="sample_date">sample date</string>
+    <string name="sample_description">sample description sample description sample description sample description sample description</string>
+    <string name="comments">comments</string>
+    <string name="likes">likes</string>
+    <string name="share">Share</string>
+    <string name="write_comment">Write Comment…</string>
+</resources>
