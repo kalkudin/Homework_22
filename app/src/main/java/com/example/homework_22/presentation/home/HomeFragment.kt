@@ -1,16 +1,19 @@
 package com.example.homework_22.presentation.home
 
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.homework_22.databinding.FragmentHomeLayoutBinding
 import com.example.homework_22.presentation.adapter.HostRecyclerViewAdapter
 import com.example.homework_22.presentation.base.BaseFragment
 import com.example.homework_22.presentation.event.HomeEvent
 import com.example.homework_22.presentation.model.HomeState
+import com.example.homework_22.presentation.model.PostPresentation
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -35,6 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeLayoutBinding>(FragmentHomeLayoutB
 
     override fun bindObservers() {
         bindHomeFlow()
+        bindNavigationFlow()
     }
 
     private fun bindStories() {
@@ -46,7 +50,9 @@ class HomeFragment : BaseFragment<FragmentHomeLayoutBinding>(FragmentHomeLayoutB
     }
 
     private fun bindHostRecyclerViewAdapter() {
-        hostAdapter = HostRecyclerViewAdapter(emptyList(), emptyList()) // Initialize with empty lists
+        hostAdapter = HostRecyclerViewAdapter(emptyList(), emptyList()) { post ->
+            onPostClicked(post)
+        }
         binding.hostRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = hostAdapter
@@ -63,6 +69,18 @@ class HomeFragment : BaseFragment<FragmentHomeLayoutBinding>(FragmentHomeLayoutB
         }
     }
 
+    private fun bindNavigationFlow() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel.navigationFlow.collect { event ->
+                    when(event) {
+                        is HomeNavigationEvent.NavigateToDetails -> navigateToDetails(id = event.id)
+                    }
+                }
+            }
+        }
+    }
+
     private fun handleState(state : HomeState) {
         binding.progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
 
@@ -71,6 +89,15 @@ class HomeFragment : BaseFragment<FragmentHomeLayoutBinding>(FragmentHomeLayoutB
         }
 
         hostAdapter.updateData(state.stories, state.posts)
+    }
+
+    private fun onPostClicked(post: PostPresentation) {
+        homeViewModel.onEvent(HomeEvent.NavigateToDetails(id = post.id))
+    }
+
+    private fun navigateToDetails(id : Int) {
+        val action = HomeFragmentDirections.actionHomeFragmentToPostDetailsFragment(id)
+        findNavController().navigate(action)
     }
 
     private fun showErrorMessage(message : String) {

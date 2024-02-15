@@ -11,8 +11,11 @@ import com.example.homework_22.presentation.mapper.mapErrorToMessage
 import com.example.homework_22.presentation.mapper.toPresentation
 import com.example.homework_22.presentation.model.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,10 +30,14 @@ class HomeViewModel @Inject constructor(
     private val _homeState = MutableStateFlow(HomeState())
     val homeState: StateFlow<HomeState> = _homeState.asStateFlow()
 
+    private val _navigationFlow = MutableSharedFlow<HomeNavigationEvent>()
+    val navigationFlow : SharedFlow<HomeNavigationEvent> = _navigationFlow.asSharedFlow()
+
     fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.GetStories -> getStories()
             is HomeEvent.GetPosts -> getPosts()
+            is HomeEvent.NavigateToDetails -> navigateToDetails(id = event.id)
         }
     }
 
@@ -77,4 +84,14 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    private fun navigateToDetails(id : Int) {
+        viewModelScope.launch {
+            _navigationFlow.emit(HomeNavigationEvent.NavigateToDetails(id = id))
+        }
+    }
+}
+
+sealed class HomeNavigationEvent() {
+    data class NavigateToDetails(val id : Int) : HomeNavigationEvent()
 }

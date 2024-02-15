@@ -15,10 +15,9 @@ fun Post.toPresentation(): PostPresentation {
         id = id,
         images = images,
         title = title,
-        comments = comments,
-        likes = likes,
-        firstName = firstName,
-        lastName = lastName,
+        comments = "$comments Comments",
+        likes = "$likes Likes",
+        userName = "$firstName $lastName",
         profile = profile,
         postDate = formattedDate
     )

@@ -1,6 +1,7 @@
 package com.example.homework_22.di
 
 import com.example.homework_22.BuildConfig
+import com.example.homework_22.data.remote.service.PostDetailsService
 import com.example.homework_22.data.remote.service.PostService
 import com.example.homework_22.data.remote.service.StoryService
 import com.squareup.moshi.Moshi
@@ -61,5 +62,11 @@ object AppModule {
     @Singleton
     fun providePostService(retrofit : Retrofit) : PostService {
         return retrofit.create(PostService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePostDetailsService(retrofit: Retrofit) : PostDetailsService {
+        return retrofit.create(PostDetailsService::class.java)
     }
 }

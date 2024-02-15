@@ -1,6 +1,7 @@
 package com.example.homework_22.di
 
 import com.example.homework_22.data.common.HandleResponse
+import com.example.homework_22.data.remote.service.PostDetailsService
 import com.example.homework_22.data.remote.service.PostService
 import com.example.homework_22.data.remote.service.StoryService
 import com.example.homework_22.data.repository.PostRepositoryImpl
@@ -19,8 +20,8 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun providePostRepository(postService: PostService, handleResponse: HandleResponse) : PostRepository{
-        return PostRepositoryImpl(postService = postService, handleResponse = handleResponse)
+    fun providePostRepository(postService: PostService, postDetailsService: PostDetailsService, handleResponse: HandleResponse) : PostRepository{
+        return PostRepositoryImpl(postService = postService, postDetailsService = postDetailsService, handleResponse = handleResponse)
     }
 
     @Singleton

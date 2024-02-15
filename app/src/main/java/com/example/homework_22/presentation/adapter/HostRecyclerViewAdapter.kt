@@ -12,7 +12,8 @@ import com.example.homework_22.presentation.model.StoryPresentation
 
 class HostRecyclerViewAdapter(
     private var stories: List<StoryPresentation>,
-    private var posts: List<PostPresentation>
+    private var posts: List<PostPresentation>,
+    private val onPostClick: (PostPresentation) -> Unit
 ) : RecyclerView.Adapter<HostRecyclerViewAdapter.HostViewHolder>() {
 
     companion object {
@@ -35,7 +36,7 @@ class HostRecyclerViewAdapter(
     override fun onBindViewHolder(holder: HostViewHolder, position: Int) {
         when (getItemViewType(position)) {
             VIEW_TYPE_STORIES -> holder.bindStories(stories)
-            VIEW_TYPE_POSTS -> holder.bindPosts(posts)
+            VIEW_TYPE_POSTS -> holder.bindPosts(posts, onPostClick)
         }
     }
 
@@ -48,7 +49,7 @@ class HostRecyclerViewAdapter(
         notifyDataSetChanged()
     }
 
-    class HostViewHolder(private val binding: ItemHostRecyclerLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class HostViewHolder(private val binding: ItemHostRecyclerLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindStories(stories: List<StoryPresentation>) {
             val storyAdapter = StoryRecyclerViewAdapter()
@@ -59,13 +60,13 @@ class HostRecyclerViewAdapter(
             }
         }
 
-        fun bindPosts(posts: List<PostPresentation>) {
-            val postAdapter = PostRecyclerViewAdapter()
-            postAdapter.submitList(posts)
+        fun bindPosts(posts: List<PostPresentation>, onClick: (PostPresentation) -> Unit) {
+            val postAdapter = PostRecyclerViewAdapter(onClick)
             binding.postRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = postAdapter
             }
+            postAdapter.submitList(posts)
         }
     }
 }

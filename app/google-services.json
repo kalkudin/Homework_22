@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "562458663851",
+    "project_id": "homework-22-75612",
+    "storage_bucket": "homework-22-75612.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562458663851:android:0f2f99e1bb06fe8128d0ee",
+        "android_client_info": {
+          "package_name": "com.example.homework_22"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2ROiBg4ErxROxw9wI9x40Or41URYXoRs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

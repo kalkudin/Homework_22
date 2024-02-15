@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {
     suspend fun getPosts() : Flow<Resource<List<Post>>>
+    suspend fun getPostDetails(id : Int) : Flow<Resource<Post>>
 }

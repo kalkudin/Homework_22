@@ -4,8 +4,24 @@
     android:id="@+id/navigation"
     app:startDestination="@id/homeFragment">
 
+    <action android:id="@+id/action_global_postDetailsFragment"
+        app:destination="@id/postDetailsFragment" />
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.homework_22.presentation.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_postDetailsFragment"
+            app:destination="@id/postDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postDetailsFragment"
+        android:name="com.example.homework_22.presentation.post_details.PostDetailsFragment"
+        android:label="PostDetailsFragment" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
 </navigation>
