@@ -90,6 +90,5 @@ class CustomLayoutManager() : RecyclerView.LayoutManager() {
             }
         }
     }
-
     override fun canScrollVertically(): Boolean = true
 }

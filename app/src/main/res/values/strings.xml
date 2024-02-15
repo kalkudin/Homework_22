@@ -10,4 +10,7 @@
     <string name="write_comment">Write Comment…</string>
     <string name="channel_name">Notification Channel</string>
     <string name="channel_description">Description</string>
+    <string name="home">home</string>
+    <string name="bell">bell</string>
+    <string name="favorite">favorite</string>
 </resources>
