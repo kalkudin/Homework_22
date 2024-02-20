@@ -44,7 +44,7 @@ class HomeViewModel @Inject constructor(
     private fun getStories() {
         viewModelScope.launch {
             getStoriesUseCase().collect { result ->
-                Log.d("HomeViewModel", "getStories result: $result")
+//                Log.d("HomeViewModel", "getStories result: $result")
                 _homeState.update { currentState ->
                     when (result) {
                         is Resource.Loading -> currentState.copy(isLoading = true)
@@ -54,7 +54,7 @@ class HomeViewModel @Inject constructor(
                         }
                         is Resource.Error -> {
                             val errorMessage = mapErrorToMessage(result.errorType)
-                            Log.e("HomeViewModel", "Error fetching stories: $errorMessage")
+//                            Log.e("HomeViewModel", "Error fetching stories: $errorMessage")
                             currentState.copy(error = errorMessage, isLoading = false)
                         }
                     }
@@ -66,7 +66,7 @@ class HomeViewModel @Inject constructor(
     private fun getPosts() {
         viewModelScope.launch {
             getPostsUseCase().collect { result ->
-                Log.d("HomeViewModel", "getPosts result: $result")
+//                Log.d("HomeViewModel", "getPosts result: $result")
                 _homeState.update { currentState ->
                     when (result) {
                         is Resource.Loading -> currentState.copy(isLoading = true)
@@ -76,7 +76,7 @@ class HomeViewModel @Inject constructor(
                         }
                         is Resource.Error -> {
                             val errorMessage = mapErrorToMessage(result.errorType)
-                            Log.e("HomeViewModel", "Error fetching posts: $errorMessage")
+//                            Log.e("HomeViewModel", "Error fetching posts: $errorMessage")
                             currentState.copy(error = errorMessage, isLoading = false)
                         }
                     }

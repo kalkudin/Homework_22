@@ -5,14 +5,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.homework_22.R
 import com.example.homework_22.databinding.FragmentPostDetailsLayoutBinding
 import com.example.homework_22.presentation.adapter.HostRecyclerViewAdapter
 import com.example.homework_22.presentation.adapter.ImageRecyclerViewAdapter
 import com.example.homework_22.presentation.base.BaseFragment
+import com.example.homework_22.presentation.event.HomeEvent
 import com.example.homework_22.presentation.event.PostDetailsEvent
 import com.example.homework_22.presentation.layout_manager.CustomLayoutManager
 import com.example.homework_22.presentation.model.DetailsState
@@ -34,10 +37,20 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsLayoutBinding>(Fragm
     }
 
     override fun bindViewActionListeners() {
+        bindBackBtn()
     }
 
     override fun bindObservers() {
         bindDetailsFlow()
+        bindNavigationFlow()
+    }
+
+    private fun bindBackBtn() {
+        with(binding) {
+            btnBack.setOnClickListener {
+                postDetailsViewModel.onEvent(PostDetailsEvent.Back)
+            }
+        }
     }
 
     private fun getPostDetails() {
@@ -58,6 +71,20 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsLayoutBinding>(Fragm
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 postDetailsViewModel.detailsState.collect { state ->
                     handleState(state)
+                }
+            }
+        }
+    }
+
+    private fun bindNavigationFlow() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                postDetailsViewModel.navigationFlow.collect {
+                    when(it) {
+                        is PostDetailsNavigationEvent.Back -> {
+                            findNavController().navigate(R.id.action_postDetailsFragment_to_homeFragment)
+                        }
+                    }
                 }
             }
         }

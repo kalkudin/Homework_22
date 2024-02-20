@@ -9,15 +9,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.homework_22.databinding.ItemImageBinding
+import com.example.homework_22.presentation.util.loadImage
 
 class ImageRecyclerViewAdapter : ListAdapter<String, ImageRecyclerViewAdapter.ImageViewHolder>(DiffCallback) {
 
     inner class ImageViewHolder(private val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(imageUrl: String) {
-            Glide.with(binding.imageView.context)
-                .load(imageUrl)
-                .transform(CenterCrop(), RoundedCorners(20))
-                .into(binding.imageView)
+            binding.imageView.loadImage(imageUrl, 20)
         }
     }
 
@@ -27,7 +25,7 @@ class ImageRecyclerViewAdapter : ListAdapter<String, ImageRecyclerViewAdapter.Im
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val image = getItem(position) // Get current image URL
+        val image = getItem(position)
         holder.bind(image)
     }
 

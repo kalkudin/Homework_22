@@ -10,11 +10,14 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.homework_22.databinding.ItemStoryLayoutBinding
 import com.example.homework_22.presentation.model.StoryPresentation
+import com.example.homework_22.presentation.util.loadImage
 
-class StoryRecyclerViewAdapter : ListAdapter<StoryPresentation, StoryRecyclerViewAdapter.StoryViewHolder>(DiffCallback) {
+class StoryRecyclerViewAdapter :
+    ListAdapter<StoryPresentation, StoryRecyclerViewAdapter.StoryViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
-        val binding = ItemStoryLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemStoryLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StoryViewHolder(binding)
     }
 
@@ -23,22 +26,27 @@ class StoryRecyclerViewAdapter : ListAdapter<StoryPresentation, StoryRecyclerVie
         holder.bind(story)
     }
 
-    class StoryViewHolder(private val binding: ItemStoryLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+    class StoryViewHolder(private val binding: ItemStoryLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(story: StoryPresentation) {
-            binding.tvTitle.text = story.title
-
-            Glide.with(binding.icImageContainer.context)
-                .load(story.cover)
-                .transform(CenterCrop(), RoundedCorners(20))
-                .into(binding.icImageContainer)
+            with(binding) {
+                tvTitle.text = story.title
+                icImageContainer.loadImage(story.cover, 20)
+            }
         }
     }
 
     object DiffCallback : DiffUtil.ItemCallback<StoryPresentation>() {
-        override fun areItemsTheSame(oldItem: StoryPresentation, newItem: StoryPresentation): Boolean =
+        override fun areItemsTheSame(
+            oldItem: StoryPresentation,
+            newItem: StoryPresentation
+        ): Boolean =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: StoryPresentation, newItem: StoryPresentation): Boolean =
+        override fun areContentsTheSame(
+            oldItem: StoryPresentation,
+            newItem: StoryPresentation
+        ): Boolean =
             oldItem == newItem
     }
 }

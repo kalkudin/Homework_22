@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.homework_22.databinding.ItemPostLayoutBinding
 import com.example.homework_22.presentation.layout_manager.CustomLayoutManager
 import com.example.homework_22.presentation.model.PostPresentation
+import com.example.homework_22.presentation.util.loadImage
 
 class PostRecyclerViewAdapter(
     private val onClick: (PostPresentation) -> Unit
@@ -42,10 +43,7 @@ class PostRecyclerViewAdapter(
 
         fun bind(post: PostPresentation) {
             with(binding) {
-                Glide.with(icUserIcon.context)
-                    .load(post.profile)
-                    .transform(CenterCrop(), RoundedCorners(300))
-                    .into(icUserIcon)
+                icUserIcon.loadImage(post.profile, 300)
 
                 tvUserName.text = post.userName
                 tvDate.text = post.postDate

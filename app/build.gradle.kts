@@ -78,9 +78,11 @@ dependencies {
 
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
-    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
-    implementation("com.google.firebase:firebase-messaging")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.mockito:mockito-core:5.10.0")
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
 }
 
 kapt {

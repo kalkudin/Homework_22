@@ -14,7 +14,6 @@ class StoryRepositoryImpl @Inject constructor(
     private val storyService: StoryService,
     private val handleResponse: HandleResponse
 ) : StoryRepository {
-
     override suspend fun getStories(): Flow<Resource<List<Story>>> {
         return handleResponse.handleApiCall { storyService.getStory() }
             .mapResource { storyDtoList -> storyDtoList.map { it.toDomain() } }
